@@ -8,6 +8,19 @@
 		<meta name="author" content="Luciole & Niméria">
 		<meta charset="UTF-8">
 
+		<style type="text/css">
+			body
+			{
+				background-color: grey;
+				text-align: center;
+			}
+			 
+			canvas
+			{
+				border: 1px dashed #333;
+			}
+		</style>
+
 	</head>
 
 	<body>
@@ -25,15 +38,10 @@
 			/*
 			* Textures object
 			*/
-			function Textures(){
+			function Textures(texturesCoord){
 
 				// The top-left corner coords of the tileSet textures
-				this.texturesCoord = [
-					{x: 1,y: 1}, 	// 0 : Type Floor
-					{x: 1,y: 1},	// 1 :
-					{x: 1,y: 1},	// 2 :
-					{x: 1,y: 1}		// 3 :
-				];
+				this.texturesCoord = texturesCoord;
 
 				// Our tileSet
 				this.tileSet = document.createElement('img');
@@ -41,74 +49,85 @@
 			}
 
 			/*
-			* Function that returns the right texture depending on the type of tile
+			* Function that returns the right texture depending on the id of tile
 			*/
-			Textures.prototype.loadTextureCoord = function(type){
+			Textures.prototype.getTextureCoord = function(id){
 
-				return this.texturesCoord[type];
+				return this.texturesCoord[id];
 			};
 
 			//------------------------------------------------------------------------------------------------------//
 
 			/*
-			* Map Object
+			* Level Object
 			*/
-			function Map(id, name, nb_rows, nb_col){
+			function Level(id, name, nb_rows, nb_col, textures){
 
 				// Unique id
 				this.id = id;
 
-				// Name of our level
+				// Name of our map
 				this.name = name;
 
-				// Our level limits
+				// Our map limits
 				this.nb_rows = nb_rows;
 				this.nb_col = nb_col;
 
-				this.level = [];
+				// Our textures
+				this.textures = textures;
+
+				// Our map
+				this.map = [];
+				this.initMap();
+
+				// Our character
+				this.character = new Character(0, this);
+
+				// Our work area : The canvas
+				this.canvas = document.getElementById("my_canvas");
+
+				this.ctx = this.canvas.getContext("2d");
+				this.ctx.translate(0, this.canvas.height / 2);
+				this.ctx.scale(1, 1);
+				this.ctx.imageSmoothingEnabled = false;
 			}
 
 			/*
-			* Function that initializes our map
+			* Function that initializes our level
 			*/
-			Map.prototype.init = function(textures){
+			Level.prototype.initMap = function(){
 
 				for (var i = 0; i < this.nb_rows; i++) {
 
-					this.level.push([]);
+					this.map.push([]);
 
 					for(var j = 0; j < this.nb_col; j++) {
 
-						this.level[i].push([]);
+						this.map[i].push([]);
 
-						// Our tile type
-						var type = Math.floor(Math.random() * 4);
-
-						// Our tile texture coordinate
-						var textureCoord = textures.loadTextureCoord(type);
+						// Our tile id
+						var id = Math.floor(Math.random() * 4) + 1;
 
 						// Our tile object
-						var tile = new Tile(type, textureCoord);
-
-						this.level[i][j] = tile;
+						this.map[i][j] = new Tile(id, this);
 					}
 				}
 
-				console.log(map)
+				console.log(this)
 			};
 
 			/*
-			* Function that returns our tile object that contains the type and texture coords
+			* Function that returns our tile object that contains the id and texture coords
 			*/
-			Map.prototype.getTile = function(mapX, mapY){
+			Level.prototype.getTile = function(mapX, mapY){
 
-				return this.level[mapX][mapY];
+				return this.map[mapX][mapY];
 			};
 
 			/*
-			* Function that renders tiles of the level
+			* Function that renders the level
 			*/
-			Map.prototype.doRender = function(textures){
+			Level.prototype.doRenderLevel = function(){
 
 				for (var i = 0; i < this.nb_rows; i++) {
 
@@ -117,13 +136,11 @@
 						// Our tile
 						var tile = this.getTile(i, j);
 
-						// The coordinates where drawing isometrics our boxes
-						var x = (j * tile.width / 2) + (i * tile.width / 2);
-						var y = (i * tile.height / 2) - (j * tile.height / 2);
-
-						ctx.drawImage(textures.tileSet, tile.textureCoord.x, tile.textureCoord.y, tile.width, tile.height, x, y, tile.width, tile.height);
+						tile.doRenderTile(i, j);
 					}
 				}
+
+				this.character.doRenderCharacter();
 			};
 
 			//------------------------------------------------------------------------------------------------------//
@@ -131,39 +148,117 @@
 			/*
 			* Tile Object
 			*/
-			function Tile(type, textureCoord){
+			function Tile(id, level){
+
+				// The id of our tile
+				this.id = id;
+
+				// The level of the tiles
+				this.level = level;
 
 				// Where to get the right texture in the tileset
-				this.textureCoord = textureCoord;
-
-				// The type of our tile
-				this.type = type;
+				this.textureCoord = this.level.textures.getTextureCoord(id);
 
 				// Size tile
-				this.width = 64;
+				this.width = 62;
 				this.height = 32;
+
+				// The coord canvas of the tile
+				this.renderCoord = {
+					x: 0,
+					y: 0
+				};
 			}
+
+			/*
+			* Function that renders tiles of the level
+			*/
+			Tile.prototype.doRenderTile = function(i , j){
+				
+				// The coordinates where drawing isometrics our boxes
+				var x = (j * (this.width + 2) / 2) + (i * (this.width + 2) / 2);
+				var y = (i * this.height / 2) - (j * this.height / 2);
+
+				this.renderCoord.x = x;
+				this.renderCoord.y = y;
+
+				this.level.ctx.drawImage(this.level.textures.tileSet, this.textureCoord.x, this.textureCoord.y, this.width, this.height, this.renderCoord.x, this.renderCoord.y, this.width, this.height);
+			};
+
+			//------------------------------------------------------------------------------------------------------//
+
+			/*
+			* Character object
+			*/
+			function Character(id, level){
+
+				// The id of our character
+				this.id = id;
+
+				// The level of the tiles
+				this.level = level;
+
+				// Where to get the right texture in the tileset
+				this.textureCoord = this.level.textures.getTextureCoord(id);
+
+				// Size tile
+				this.width = 62;
+				this.height = 32;
+
+				// The coord canvas of the character
+				this.renderCoord = {
+					x: 0,
+					y: 0
+				};
+
+				// The character position in the level
+				this.characterPosition = {
+					x: 2,
+					y: 0
+				};
+			}
+
+			/*
+			* Function that moves the player
+			*/
+			Character.prototype.forwardCharacter = function(){
+
+				console.log("caca")
+				this.characterPosition.y++;
+				this.doRenderCharacter();
+			};
+
+			/*
+			* Function that render the player
+			*/
+			Character.prototype.doRenderCharacter = function(){
+
+				this.renderCoord.x = this.level.map[this.characterPosition.x][this.characterPosition.y].renderCoord.x;
+				this.renderCoord.y = this.level.map[this.characterPosition.x][this.characterPosition.y].renderCoord.y;
+
+				this.level.ctx.drawImage(this.level.textures.tileSet, this.textureCoord.x, this.textureCoord.y, this.width, this.height, this.renderCoord.x, this.renderCoord.y, this.width, this.height);
+			};
 
 			/******************************************************************************************************/
 			/*****************************************      GOOOOOOOO      ****************************************/
 			/******************************************************************************************************/
 
-			// Our work area : The canvas
-			var c = document.getElementById("my_canvas");
-			var ctx = c.getContext("2d");
+			var texturesCoord = [
+				{x: 0,	y: 62}, // 0 : Perso
+				{x: 0,	y: 0}, 	// 1 : id Floor
+				{x: 62,	y: 0},	// 2 : id Pike
+				{x: 124,y: 0},	// 3 : id Smooth
+				{x: 0,	y: 0}	// 4 : Wall	
+			];
 
-			ctx.translate(0, c.height / 2);
-			ctx.scale(3, 3);
-			ctx.imageSmoothingEnabled = false;
+			var textures = new Textures(texturesCoord);
 
-			var textures = new Textures();
-
-			var map = new Map(0, "Niveau 1", 5, 20);
-			map.init(textures);
+			var level = new Level(0, "Niveau 1", 5, 200, textures);
 
 			window.onload = function() {
 
-				map.doRender(textures);
+				level.canvas.addEventListener("onclick", level.character.forwardCharacter(), false);
+				level.doRenderLevel();
 			};
 
 		</script>
