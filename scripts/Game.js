@@ -11,13 +11,15 @@ function Game(){
 		{x: 0,	y: 0}	// 4 : Wall	
 	];
 
-	this.textures = new Textures(texturesCoord);
+	this.textures = new Textures(this.texturesCoord);
 
-	this.level = new Level(0, "Niveau 1", 5, 200, textures);
+	this.level = new Level(0, "Niveau 1", 5, 200, this.textures);
+
+	var self = this;
 
 	window.onload = function() {
 
-		level.canvas.addEventListener("onclick", level.character.forwardCharacter(), false);
-		level.doRenderLevel();
+		self.level.canvas.addEventListener("onclick", self.level.character.forwardCharacter(), false);
+		self.level.doRenderLevel();
 	};
 }
