@@ -34,7 +34,6 @@ function Character(id, level){
 */
 Character.prototype.forwardCharacter = function(){
 
-	console.log("caca")
 	this.characterPosition.y++;
 	this.doRenderCharacter();
 };
