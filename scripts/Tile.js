@@ -10,7 +10,7 @@ function Tile(id, level){
 	this.level = level;
 
 	// Where to get the right texture in the tileset
-	this.textureCoord = this.level.tileset.getTextureCoord(id);
+	this.textureCoord = this.level.tilesets.map.getTextureCoord(id);
 
 	// Size tile
 	this.width = 62;
@@ -35,5 +35,5 @@ Tile.prototype.doRenderTile = function(i , j){
 	this.renderCoord.x = x;
 	this.renderCoord.y = y;
 
-	this.level.ctx.drawImage(this.level.tileset.texture, this.textureCoord.x, this.textureCoord.y, this.width, this.height, this.renderCoord.x, this.renderCoord.y, this.width, this.height);
+	this.level.ctx.drawImage(this.level.tilesets.map.texture, this.textureCoord.x, this.textureCoord.y, this.width, this.height, this.renderCoord.x, this.renderCoord.y, this.width, this.height);
 };

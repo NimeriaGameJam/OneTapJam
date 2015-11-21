@@ -23,6 +23,10 @@
 	</head>
 
 	<body>
+		<div id="adieuuu" style="position: absolute;">
+			ADIEEUUUU
+		</div>
+
 		<canvas id="my_canvas" width="1000" height="1000">
 			Your web browser don't support canvas.
 		</canvas>
@@ -34,5 +38,31 @@
 		<script src="scripts/Level.js"></script>
 		<script src="scripts/Game.js"></script>
 		<script src="scripts/main.js"></script>
+
+		<script type="text/javascript">
+
+			window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+                              window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+			var start = null;
+
+			var d = document.getElementById("my_canvas");
+
+			function step(timestamp) {
+
+			  	var progress;
+
+			  	if (start === null) start = timestamp;
+			  		progress = timestamp - start;
+
+			  	d.style.left = Math.min(progress/10, 200) + "px";
+			  	if (progress < 2000) {
+
+			    	requestAnimationFrame(step);
+			  	}
+			}
+
+			requestAnimationFrame(step);
+		</script>
 	</body>
 </html>

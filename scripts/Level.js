@@ -1,7 +1,7 @@
 /*
 * Level Object
 */
-function Level(id, name, nb_rows, nb_col, tileset){
+function Level(id, name, nb_rows, nb_col, tilesets){
 
 	// Unique id
 	this.id = id;
@@ -14,11 +14,10 @@ function Level(id, name, nb_rows, nb_col, tileset){
 	this.nb_col = nb_col;
 
 	// Our tileset
-	this.tileset = tileset;
+	this.tilesets = tilesets;
 
 	// Our map
-	this.map = [];
-	this.initMap();
+	this.map = this.initMap();
 
 	// Our character
 	this.character = new Character(0, this);
@@ -37,23 +36,25 @@ function Level(id, name, nb_rows, nb_col, tileset){
 */
 Level.prototype.initMap = function(){
 
+	var tab = [];
+
 	for (var i = 0; i < this.nb_rows; i++) {
 
-		this.map.push([]);
+		tab.push([]);
 
 		for(var j = 0; j < this.nb_col; j++) {
 
-			this.map[i].push([]);
+			tab[i].push([]);
 
 			// Our tile id
 			var id = Math.floor(Math.random() * 4) + 1;
 
 			// Our tile object
-			this.map[i][j] = new Tile(id, this);
+			tab[i][j] = new Tile(id, this);
 		}
 	}
 
-	console.log(this)
+	return tab;
 };
 
 /*

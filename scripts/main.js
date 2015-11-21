@@ -36,4 +36,10 @@ var config = {
 var game = new Game(config);
 
 game.init();
-game.loadLevel();
+
+window.onload = function(){
+
+	game.loadLevel();
+};
+
+console.log(game)
