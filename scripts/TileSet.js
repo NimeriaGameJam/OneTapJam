@@ -1,20 +1,20 @@
 /*
 * Textures object
 */
-function Textures(texturesCoord){
+function TileSet(texturesCoord, path){
 
 	// The top-left corner coords of the tileSet textures
 	this.texturesCoord = texturesCoord;
 
 	// Our tileSet
-	this.tileSet = document.createElement('img');
-	this.tileSet.src = "assets/img/tiles.png";
+	this.texture = document.createElement('img');
+	this.texture.src = path;
 }
 
 /*
 * Function that returns the right texture depending on the id of tile
 */
-Textures.prototype.getTextureCoord = function(id){
+TileSet.prototype.getTextureCoord = function(id){
 
 	return this.texturesCoord[id];
 };

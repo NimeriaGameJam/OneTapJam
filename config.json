@@ -1,0 +1,28 @@
+{
+	"tilesets": {
+
+		"map": {
+
+			"texturesCoord": [
+				{"x": 0,"y": 62}, 	
+				{"x": 0,"y": 0}, 	
+				{"x": 62,"y": 0},	
+				{"x": 124,"y": 0},	
+				{"x": 0,"y": 0}		
+			],
+			"tilesetPath": "assets/img/tiles.png"
+		},
+
+		"character": {
+
+			"texturesCoord": [
+				{"x": 0,"y": 62}, 	
+				{"x": 0,"y": 0}, 	
+				{"x": 62,"y": 0},	
+				{"x": 124,"y": 0},	
+				{"x": 0,"y": 0}		
+			],
+			"tilesetPath": "assets/img/tiles.png"
+		}
+	}
+}

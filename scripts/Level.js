@@ -1,7 +1,7 @@
 /*
 * Level Object
 */
-function Level(id, name, nb_rows, nb_col, textures){
+function Level(id, name, nb_rows, nb_col, tileset){
 
 	// Unique id
 	this.id = id;
@@ -13,8 +13,8 @@ function Level(id, name, nb_rows, nb_col, textures){
 	this.nb_rows = nb_rows;
 	this.nb_col = nb_col;
 
-	// Our textures
-	this.textures = textures;
+	// Our tileset
+	this.tileset = tileset;
 
 	// Our map
 	this.map = [];
