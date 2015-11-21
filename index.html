@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<title>OneTapJam</title>
+
+		<meta name="description" content="A game for the OneTapJam">
+		<meta name="author" content="Luciole & Niméria">
+		<meta charset="UTF-8">
+
+	</head>
+
+	<body>
+
+		<canvas id="my_canvas" width="1000" height="1000">
+			Your web browser don't support canvas.
+		</canvas>
+
+		<script type="text/javascript">
+
+			/******************************************************************************************************/
+			/*****************************************      FONCTIONS      ****************************************/
+			/******************************************************************************************************/
+
+			/*
+			* Textures object
+			*/
+			function Textures(){
+
+				// The top-left corner coords of the tileSet textures
+				this.texturesCoord = [
+					{x: 1,y: 1}, 	// 0 : Type Floor
+					{x: 1,y: 1},	// 1 :
+					{x: 1,y: 1},	// 2 :
+					{x: 1,y: 1}		// 3 :
+				];
+
+				// Our tileSet
+				this.tileSet = document.createElement('img');
+				this.tileSet.src = "assets/img/tiles.png";
+			}
+
+			/*
+			* Function that returns the right texture depending on the type of tile
+			*/
+			Textures.prototype.loadTextureCoord = function(type){
+
+				return this.texturesCoord[type];
+			};
+
+			//------------------------------------------------------------------------------------------------------//
+
+			/*
+			* Map Object
+			*/
+			function Map(id, name, nb_rows, nb_col){
+
+				// Unique id
+				this.id = id;
+
+				// Name of our level
+				this.name = name;
+
+				// Our level limits
+				this.nb_rows = nb_rows;
+				this.nb_col = nb_col;
+
+				this.level = [];
+			}
+
+			/*
+			* Function that initializes our map
+			*/
+			Map.prototype.init = function(textures){
+
+				for (var i = 0; i < this.nb_rows; i++) {
+
+					this.level.push([]);
+
+					for(var j = 0; j < this.nb_col; j++) {
+
+						this.level[i].push([]);
+
+						// Our tile type
+						var type = Math.floor(Math.random() * 4);
+
+						// Our tile texture coordinate
+						var textureCoord = textures.loadTextureCoord(type);
+
+						// Our tile object
+						var tile = new Tile(type, textureCoord);
+
+						this.level[i][j] = tile;
+					}
+				}
+
+				console.log(map)
+			};
+
+			/*
+			* Function that returns our tile object that contains the type and texture coords
+			*/
+			Map.prototype.getTile = function(mapX, mapY){
+
+				return this.level[mapX][mapY];
+			};
+
+			/*
+			* Function that renders tiles of the level
+			*/
+			Map.prototype.doRender = function(textures){
+
+				for (var i = 0; i < this.nb_rows; i++) {
+
+					for(var j = this.nb_col - 1; j >= 0; j--) {
+
+						// Our tile
+						var tile = this.getTile(i, j);
+
+						// The coordinates where drawing isometrics our boxes
+						var x = (j * tile.width / 2) + (i * tile.width / 2);
+						var y = (i * tile.height / 2) - (j * tile.height / 2);
+
+						ctx.drawImage(textures.tileSet, tile.textureCoord.x, tile.textureCoord.y, tile.width, tile.height, x, y, tile.width, tile.height);
+					}
+				}
+			};
+
+			//------------------------------------------------------------------------------------------------------//
+
+			/*
+			* Tile Object
+			*/
+			function Tile(type, textureCoord){
+
+				// Where to get the right texture in the tileset
+				this.textureCoord = textureCoord;
+
+				// The type of our tile
+				this.type = type;
+
+				// Size tile
+				this.width = 64;
+				this.height = 32;
+			}
+
+			/******************************************************************************************************/
+			/*****************************************      GOOOOOOOO      ****************************************/
+			/******************************************************************************************************/
+
+			// Our work area : The canvas
+			var c = document.getElementById("my_canvas");
+			var ctx = c.getContext("2d");
+
+			ctx.translate(0, c.height / 2);
+			ctx.scale(3, 3);
+			ctx.imageSmoothingEnabled = false;
+
+			var textures = new Textures();
+
+			var map = new Map(0, "Niveau 1", 5, 20);
+			map.init(textures);
+
+			window.onload = function() {
+
+				map.doRender(textures);
+			};
+
+		</script>
+
+	</body>
+</html>
