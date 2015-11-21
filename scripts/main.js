@@ -40,6 +40,9 @@ game.init();
 window.onload = function(){
 
 	game.loadLevel();
+	
+	// Our canvas listener
+	game.level.canvas.addEventListener("onclick", game.level.character.forwardCharacter(), false);
 };
 
 console.log(game)

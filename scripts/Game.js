@@ -38,9 +38,6 @@ Game.prototype.init = function(){
 
 	this.tilesets.map = new TileSet(this.config.tilesets.map.texturesCoord, this.config.tilesets.map.tilesetPath);
 	this.tilesets.character = new TileSet(this.config.tilesets.character.texturesCoord, this.config.tilesets.character.tilesetPath);
-
-	// Our canvas listener
-	//this.level.canvas.addEventListener("onclick", this.level.character.forwardCharacter(), false);
 };
 
 Game.prototype.loadLevel = function(){
