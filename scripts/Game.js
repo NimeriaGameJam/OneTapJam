@@ -1,48 +1,91 @@
 /*
 * Game object
 */
-function Game(config){
+function Game(conf){
+	this.conf = conf;
 
-	// Our config
-	this.config = config;
+	this.controller = new Controller(document.body);
 
-	// Our tileSets
-	this.tilesets = {};
+	this.ctx = document.querySelector('#my_canvas').getContext('2d');
 
-	// Our level
-	this.level = {};
+	//list of tileset/tile by name.
+	this.tilesetsMap = {};
+	this.tileMap = {};
+	this.obstacleMap = {};
+	this.levelMap = {};
 
-	//this.level.doRenderLevel();
+	this.lastTime = 0;
+
+	this.currentLevel = null;
 }
 
-Game.prototype.init = function(){
-
-	// Request to get the config
+Game.prototype = {
 	/*
-	var xmlhttp = new XMLHttpRequest();
-	var url = "config.json";
+	 * 
+	*/
+	init: function(callback) {
+	//CTX
+		this.ctx.imageSmoothingEnabled = false;
+		this.ctx.scale(2, 2);
+		this.ctx.translate(0, 250);
 
-	xmlhttp.onload = function() {
+	//TILESET
+		var tilesetTotal = 0, tilesetCount = 0, key;
 
-		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+		function getTilesetCallBack() {
+			tilesetTotal++;
 
-			this.config = JSON.parse(xmlhttp.responseText);
-
-			this.tilesets.map = new TileSet(this.config.tilesets.map.texturesCoord, this.config.tilesets.map.tilesetPath);
-			this.tilesets.character = new TileSet(this.config.tilesets.character.texturesCoord, this.config.tilesets.character.tilesetPath);
+			return function TilesetCallBack() {
+				if(++tilesetCount === tilesetTotal)
+					callback();
+			};
 		}
-	};
 
-	xmlhttp.open("GET", url, true);
-	xmlhttp.send();*/
+		for(key in this.conf.tileset){
+			var tileset = this.conf.tileset[key];
+			this.tilesetsMap[key] = new Tileset(tileset.data, tileset.path, getTilesetCallBack());
+		}
 
-	this.tilesets.map = new TileSet(this.config.tilesets.map.texturesCoord, this.config.tilesets.map.tilesetPath);
-	this.tilesets.character = new TileSet(this.config.tilesets.character.texturesCoord, this.config.tilesets.character.tilesetPath);
+
+	//TILE
+		var mapTileset = this.tilesetsMap['map'];
+
+		for(key in this.conf.tile){
+			var tileData = this.conf.tile[key];
+			this.tileMap[key] = new Tile(mapTileset, tileData);
+		}
+
+
+	//OBSTACLE
+		Obstacle.ConvertData(this.conf.obstacle, this.tileMap);
+		this.obstacleMap = this.conf.obstacle;
+
+	//LEVEL
+		this.levelMap = this.conf.level;
+	},
+
+
+	start: function() {
+		this.render(this.lastTime, this);
+	},
+
+	render: function(time, self) {
+		requestAnimationFrame(function (time){
+			self.render(time, self);
+		});
+
+		if(self.currentLevel)
+			self.currentLevel.render(self.ctx, time); 
+	},
+
+	/*
+	 * Used to load the `name` level.
+	*/
+	loadLevel: function(name) {
+		var player = new Player(this.tilesetsMap['player'], this.controller);
+		this.currentLevel = new Level(this.levelMap[name], player, this.obstacleMap);
+	}
 };
 
-Game.prototype.loadLevel = function(){
-
-	this.level = new Level(0, "Niveau 1", 5, 200, this.tilesets);
-
-	this.level.doRenderLevel();
-};
+//timestep is ms.
+Game.TIME_STEP = 20;

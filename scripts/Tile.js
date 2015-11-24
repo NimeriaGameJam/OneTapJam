@@ -1,39 +1,58 @@
 /*
-* Tile Object
+ * the Tile is used to définie a static / animated bloc on the map,
+ * they was used only for graphique purpose.
 */
-function Tile(id, level){
-
-	// The id of our tile
-	this.id = id;
-
-	// The level of the tiles
-	this.level = level;
-
-	// Where to get the right texture in the tileset
-	this.textureCoord = this.level.tilesets.map.getTextureCoord(id);
-
-	// Size tile
-	this.width = 62;
-	this.height = 32;
-
-	// The coord canvas of the tile
-	this.renderCoord = {
-		x: 0,
-		y: 0
-	};
+function Tile(tileset, data) {
+	this.tileset = tileset;
+	this.tileAnimation = this.buildAnimation(data);
 }
 
-/*
-* Function that renders tiles of the level
-*/
-Tile.prototype.doRenderTile = function(i , j){
-	
-	// The coordinates where drawing isometrics our boxes
-	var x = (j * (this.width + 2) / 2) + (i * (this.width + 2) / 2);
-	var y = (i * this.height / 2) - (j * this.height / 2);
+Tile.prototype = {
+	/*
+	 * Build the realAnimation from the data.
+	*/
+	buildAnimation: function(data) {
+		var self = this;
+		var result = [];
+		var tile, i;
 
-	this.renderCoord.x = x;
-	this.renderCoord.y = y;
+		data.forEach(function (frame) {
+			tile = self.tileset.get(frame.id);
 
-	this.level.ctx.drawImage(this.level.tilesets.map.texture, this.textureCoord.x, this.textureCoord.y, this.width, this.height, this.renderCoord.x, this.renderCoord.y, this.width, this.height);
+			for(i=0; i<frame.count; i++)
+				result.push(tile);
+		});
+
+		return result;
+	},
+
+	/*
+	 * Get the tile for the time frame.
+	*/
+	getTile: function(time) {
+		return this.tileAnimation[ (~~(time / Game.TIME_STEP)) % this.tileAnimation.length ];
+	},
+
+	render: function(ctx, time, x, y) {
+		var pos = this.transpose(x, y);
+		var tile = this.getTile(time);
+
+		ctx.drawImage(this.tileset.texture, tile.x, tile.y, tile.w, tile.h, pos.x, pos.y, tile.w, tile.h);
+	},
+
+	/*
+	 *Change the 2d position into 2d isometrique.
+	*/
+	transposeX: 32,
+	transposeY: 16,
+	transpose: function(x, y) {
+		return {
+			x: x*this.transposeX + y*this.transposeX,
+			y: -x*this.transposeY + y*this.transposeY
+		};
+	}
 };
+
+
+
+//delay between two animation frame.
