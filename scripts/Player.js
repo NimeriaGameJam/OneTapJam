@@ -9,7 +9,11 @@ Player.prototype = {
 	 *Logic update.
 	*/
 	update: function(world, time) {
-		
+
+		if(this.controller.stat.press){
+			this.pos++;
+			this.controller.stat.press = false;
+		}
 	},
 
 	/*
