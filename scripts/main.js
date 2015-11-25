@@ -26,7 +26,7 @@ var conf = {
 				"ground0": [0, 0, 62, 32],
 				"ground1": [0, 0, 62, 32],
 				"ground2": [0, 0, 62, 32],
-				"hole": [0, 32, 62, 32],
+				"water": [0, 32, 62, 32],
 				"pike0": [62, 0, 62, 32],
 				"pike1": [62, 32, 62, 32],
 				"pike2": [62, 64, 62, 32],
@@ -55,8 +55,8 @@ var conf = {
 		"ground": [
 			{"id": "ground0", "count": 1}
 		],
-		"hole": [
-			{"id": "hole", "count": 1}
+		"water": [
+			{"id": "water", "count": 1}
 		],
 		"pike": [
 			{"id": "pike0", "count": 10},
@@ -83,13 +83,13 @@ var conf = {
 				{"safe": true, "count": 1}
 			]
 		},
-		"hole": {
+		"water": {
 			"tileList": [
-				{"id": "hole", "delay": 0},
-				{"id": "hole", "delay": 0},
-				{"id": "hole", "delay": 0},
-				{"id": "hole", "delay": 0},
-				{"id": "hole", "delay": 0}
+				{"id": "water", "delay": 0},
+				{"id": "water", "delay": 0},
+				{"id": "water", "delay": 0},
+				{"id": "water", "delay": 0},
+				{"id": "water", "delay": 0}
 			],
 			"timeCycle": [
 				{"safe": true, "count": 1}
@@ -97,11 +97,11 @@ var conf = {
 		},
 		"pike_slow": {
 			"tileList": [
-				{"id": "hole", "delay": 0},
+				{"id": "water", "delay": 0},
 				{"id": "pike", "delay": 0},
 				{"id": "pike", "delay": 2},
 				{"id": "pike", "delay": 4},
-				{"id": "hole", "delay": 0}
+				{"id": "water", "delay": 0}
 			],
 			"timeCycle": [
 				{"safe": true, "count": 1},
@@ -116,14 +116,14 @@ var conf = {
 				{"id": "ground", "delay": 0},
 				{"id": "ground", "delay": 0},
 				{"id": "pike_slow", "delay": 0},
-				{"id": "hole", "delay": 0},
+				{"id": "water", "delay": 0},
 				{"id": "pike_slow", "delay": 10},
 				{"id": "ground", "delay": 0},
-				{"id": "hole", "delay": 0},
+				{"id": "water", "delay": 0},
 				{"id": "ground", "delay": 0},
 				{"id": "ground", "delay": 0},
 				{"id": "ground", "delay": 0},
-				{"id": "hole", "delay": 0},
+				{"id": "water", "delay": 0},
 				{"id": "ground", "delay": 0}
 			]
 		}
