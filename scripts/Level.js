@@ -31,6 +31,6 @@ Level.prototype = {
 		for(var i=0; i<this.map.length; i++)
 			this.map[i].render(ctx, time);
 
-		this.player.render(ctx);
+		this.player.render(ctx, time);
 	}
 };
