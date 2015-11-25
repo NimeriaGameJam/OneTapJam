@@ -29,8 +29,7 @@ Obstacle.prototype = {
 		time += this.timeOffset * Game.TIME_STEP;
 		var index = this.index;
 
-		this.tileList.forEach(function (tile, y) {window.accessTile = tile;
-			//console.log('time: ', time, ', full: ', time + tile.cycle * Game.TIME_STEP);
+		this.tileList.forEach(function (tile, y) {
 			tile.tile.render(ctx, time + tile.delay * Game.TIME_STEP, index, y);
 		});
 	}
