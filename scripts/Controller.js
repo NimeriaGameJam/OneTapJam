@@ -1,8 +1,9 @@
 /*
  * The Controller link the action of the player and the game himself.
 */
-function Controller(target) {
-	this.target = target;
+function Controller(game) {
+	this.target = window;
+	this.game = game;
 
 	//Define listeners functions.
 	this.pressEvent = this.definePressEvent();
@@ -30,7 +31,7 @@ Controller.prototype = {
 	destroy: function() {
 		this.target.removeEventListener('mousedown', this.pressEvent);
 		this.target.removeEventListener('mouseup', this.relaseEvent);
-		this.target.removeEventListener('resizeEvent', this.resizeEvent);
+		this.target.removeEventListener('resize', this.resizeEvent);
 	},
 
 	/*
@@ -59,11 +60,31 @@ Controller.prototype = {
 	defineResizeEvent: function() {
 		var self = this;
 		var canvas = document.querySelector('#my_canvas');
+		var ctx = this.game.ctx;
+
+		var minW = 478,
+			minH = 240;
 
 		return function resizeEvent() {
-			//canvas.height = ~~(window.innerHeight/2.5);
-			//canvas.width = ~~(window.innerWidth/2.5);
+			var scaleW = window.innerWidth / minW,
+				scaleH = window.innerHeight / minH;
+			var scaleMin = Math.min(scaleW, scaleH);
 
+			var width = (scaleW /scaleMin) *minW,
+				height = (scaleH /scaleMin) *minH;
+
+			canvas.width = width;
+			canvas.height = height;
+
+			width = ~~( (canvas.width -minW) /2);
+			height = ~~( (canvas.height -minH) /2);
+
+			ctx.clearRect(-500, -500, 1000, 1000); 
+			ctx.translate(width, height + 176);
+
+			canvas.style.transform = 'scale('+ scaleMin +', '+ scaleMin +')';
+			canvas.style.top = 'calc(50vh - '+ (canvas.height / 2) +'px)';
+			canvas.style.left = 'calc(50vw - '+ (canvas.width / 2) +'px)';
 		};
 	}
 };
