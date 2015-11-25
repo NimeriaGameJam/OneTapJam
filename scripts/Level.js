@@ -23,8 +23,8 @@ Level.prototype = {
 	},
 
 	update: function(time) {
-
-
+		
+		
 	},
 
 	render: function(ctx, time) {

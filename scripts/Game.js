@@ -70,12 +70,12 @@ Game.prototype = {
 	},
 
 	render: function(time, self) {
-		requestAnimationFrame(function (time){
+		requestAnimationFrame(function (time) {
 			self.render(time, self);
 		});
 
 		if(self.currentLevel)
-			self.currentLevel.render(self.ctx, time); 
+			self.currentLevel.render(self.ctx, time);
 	},
 
 	/*
