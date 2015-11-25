@@ -23,7 +23,7 @@ Obstacle.prototype = {
 	},
 
 	/*
-	 *
+	 * 
 	*/
 	render: function(ctx, time) {
 		time += this.timeOffset * Game.TIME_STEP;
@@ -44,7 +44,6 @@ Obstacle.ConvertData = function(dataMap, tileMap){
 			tileList: [],
 			timeCycle: []
 		};
-
 
 		data.tileList.forEach(function (tile) {
 			result.tileList.push({

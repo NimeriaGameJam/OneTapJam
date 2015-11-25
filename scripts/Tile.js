@@ -37,7 +37,7 @@ Tile.prototype = {
 		var pos = this.transpose(x, y),
 			tile = this.getTile(time);
 
-		ctx.drawImage(this.tileset.texture, tile.x, tile.y, tile.w, tile.h, pos.x, pos.y, tile.w, tile.h);
+		ctx.drawImage(this.tileset.texture, tile.x, tile.y, tile.w, tile.h, pos.x -tile.offX, pos.y -tile.offY, tile.w, tile.h);
 	},
 
 	/*

@@ -4,9 +4,9 @@
 function Game(conf){
 	this.conf = conf;
 
-	this.controller = new Controller(document.body);
-
 	this.ctx = document.querySelector('#my_canvas').getContext('2d');
+
+	this.controller = new Controller(this);
 
 	//list of tileset/tile/obstalce/level by name.
 	this.tilesetsMap = {};
@@ -28,8 +28,6 @@ Game.prototype = {
 		this.ctx.imageSmoothingEnabled = false;
 		//this.ctx.scale(1, 1);
 		this.controller.resizeEvent();
-
-
 
 	//TILESET
 		var tilesetTotal = 0, tilesetCount = 0, key;
