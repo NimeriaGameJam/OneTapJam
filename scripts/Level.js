@@ -23,11 +23,12 @@ Level.prototype = {
 	},
 
 	update: function(time) {
-		this.player.update();
+
+
 	},
 
 	render: function(ctx, time) {
-		for(var i=0; i<this.map.length; i++)
+		for(var i=this.map.length-1; i>=0; i--)
 			this.map[i].render(ctx, time);
 
 		this.player.render(ctx);
