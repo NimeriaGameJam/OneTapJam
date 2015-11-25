@@ -1,6 +1,6 @@
-function Player(tilesets, controller) {
+function Player(tileset, controller) {
 	this.pos = 0;
-	this.tilesets = tilesets;
+	this.tileset = tileset;
 	this.controller = controller;
 }
 
@@ -15,9 +15,30 @@ Player.prototype = {
 	/*
 	 *Visual render.
 	*/
-	render: function(ctx, time) {
+	render: function(ctx) {
+		var pos = this.transpose(this.pos);
+		var player = this.getPlayer();
 
+		ctx.drawImage(this.tileset.texture, player.x, player.y, player.w, player.h, pos.x-player.offX, pos.y-player.offY, player.w, player.h);
+	},
 
+	/*
+	 * Get the right texture from the tileset.
+	*/
+	getPlayer: function() {
+		return this.tileset.get("run0");
+	},
+
+	/*
+	 *Change the 2d position into 2d isometrique. No need `y` param.
+	*/
+	transposeX: 32,
+	transposeY: 16,
+	transpose: function(x) {
+		return {
+			x: x*this.transposeX + 3*this.transposeX,
+			y: -x*this.transposeY + 3*this.transposeY
+		};
 	}
 };
 
