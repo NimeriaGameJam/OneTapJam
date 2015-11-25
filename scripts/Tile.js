@@ -12,9 +12,9 @@ Tile.prototype = {
 	 * Build the realAnimation from the data.
 	*/
 	buildAnimation: function(data) {
-		var self = this;
-		var result = [];
-		var tile, i;
+		var self = this,
+			result = [],
+			tile, i;
 
 		data.forEach(function (frame) {
 			tile = self.tileset.get(frame.id);
@@ -34,14 +34,14 @@ Tile.prototype = {
 	},
 
 	render: function(ctx, time, x, y) {
-		var pos = this.transpose(x, y);
-		var tile = this.getTile(time);
+		var pos = this.transpose(x, y),
+			tile = this.getTile(time);
 
 		ctx.drawImage(this.tileset.texture, tile.x, tile.y, tile.w, tile.h, pos.x, pos.y, tile.w, tile.h);
 	},
 
 	/*
-	 *Change the 2d position into 2d isometrique.
+	 * Change the 2d position into 2d isometrique.
 	*/
 	transposeX: 32,
 	transposeY: 16,
@@ -52,6 +52,13 @@ Tile.prototype = {
 		};
 	}
 };
+
+
+Object.defineProperty(Tile.prototype, 'cycle', {
+	get: function() {
+		return this.tileAnimation.length;
+	}
+});
 
 
 

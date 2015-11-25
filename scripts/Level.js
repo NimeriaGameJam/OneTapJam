@@ -27,8 +27,8 @@ Level.prototype = {
 
 	},
 
-	render: function(time) {
+	render: function(ctx, time) {
 		for(var i=0; i<this.map.length; i++)
-				this.map[i].render(time);
+				this.map[i].render(ctx, time);
 	}
 };

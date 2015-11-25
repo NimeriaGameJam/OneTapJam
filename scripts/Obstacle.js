@@ -29,7 +29,8 @@ Obstacle.prototype = {
 		time += this.timeOffset * Game.TIME_STEP;
 		var index = this.index;
 
-		this.tileList.forEach(function (tile, y) {
+		this.tileList.forEach(function (tile, y) {window.accessTile = tile;
+			//console.log('time: ', time, ', full: ', time + tile.cycle * Game.TIME_STEP);
 			tile.tile.render(ctx, time + tile.delay * Game.TIME_STEP, index, y);
 		});
 	}
@@ -48,7 +49,7 @@ Obstacle.ConvertData = function(dataMap, tileMap){
 		data.tileList.forEach(function (tile) {
 			result.tileList.push({
 				tile: tileMap[tile.id],
-				offset: tile.offset
+				delay: tile.delay
 			});
 		});
 

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-
 		<title>OneTapJam</title>
 
 		<meta name="description" content="A game for the OneTapJam">
@@ -9,21 +8,28 @@
 		<meta charset="UTF-8">
 
 		<style type="text/css">
-			body
-			{
-				background-color: grey;
+			body{
+				margin: 0;
+				padding: 0;
+				background-color: #444;
 				text-align: center;
+				overflow: hidden;
 			}
 			 
-			canvas
-			{
-				border: 1px dashed #333;
+			canvas{
+				image-rendering: pixelated;
+
+				position: absolute;
+				top: calc(50vh - 300px);
+				left: calc(50vw - 400px);
+
+				box-shadow: inset 0 0 0 1px #888;
 			}
 		</style>
 	</head>
 
 	<body>
-		<canvas id="my_canvas" width="1000" height="1000">
+		<canvas id="my_canvas" width="800" height="600">
 			Your web browser don't support canvas.
 		</canvas>
 

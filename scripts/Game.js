@@ -8,7 +8,7 @@ function Game(conf){
 
 	this.ctx = document.querySelector('#my_canvas').getContext('2d');
 
-	//list of tileset/tile by name.
+	//list of tileset/tile/obstalce/level by name.
 	this.tilesetsMap = {};
 	this.tileMap = {};
 	this.obstacleMap = {};
@@ -26,8 +26,10 @@ Game.prototype = {
 	init: function(callback) {
 	//CTX
 		this.ctx.imageSmoothingEnabled = false;
-		this.ctx.scale(2, 2);
-		this.ctx.translate(0, 250);
+		//this.ctx.scale(1, 1);
+		this.controller.resizeEvent();
+
+
 
 	//TILESET
 		var tilesetTotal = 0, tilesetCount = 0, key;
@@ -88,4 +90,4 @@ Game.prototype = {
 };
 
 //timestep is ms.
-Game.TIME_STEP = 20;
+Game.TIME_STEP = 80;

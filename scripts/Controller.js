@@ -5,8 +5,9 @@ function Controller(target) {
 	this.target = target;
 
 	//Define listeners functions.
-	this.relaseEvent = this.defineReleaseEvent();
 	this.pressEvent = this.definePressEvent();
+	this.relaseEvent = this.defineReleaseEvent();
+	this.resizeEvent = this.defineResizeEvent();
 
 	//Define the stats used by the game to know the interactions of the user.
 	this.stat = {
@@ -16,8 +17,9 @@ function Controller(target) {
 	};
 
 	//Add listeners.
-	this.target.addEventListener('mousedown', this.definePressEvent());
-	this.target.addEventListener('mouseup', this.definePressEvent());
+	this.target.addEventListener('mousedown', this.pressEvent);
+	this.target.addEventListener('mouseup', this.relaseEvent);
+	this.target.addEventListener('resize', this.resizeEvent);
 }
 
 Controller.prototype = {
@@ -28,6 +30,7 @@ Controller.prototype = {
 	destroy: function() {
 		this.target.removeEventListener('mousedown', this.pressEvent);
 		this.target.removeEventListener('mouseup', this.relaseEvent);
+		this.target.removeEventListener('resizeEvent', this.resizeEvent);
 	},
 
 	/*
@@ -50,6 +53,17 @@ Controller.prototype = {
 
 		return function relaseEvent(event) {
 			self.stat.release = true;
+		};
+	},
+
+	defineResizeEvent: function() {
+		var self = this;
+		var canvas = document.querySelector('#my_canvas');
+
+		return function resizeEvent() {
+			//canvas.height = ~~(window.innerHeight/2.5);
+			//canvas.width = ~~(window.innerWidth/2.5);
+
 		};
 	}
 };
