@@ -17,6 +17,7 @@ Tile.prototype = {
 			tile, i;
 
 		data.forEach(function (frame) {
+			frame.count = frame.count || 1;
 			tile = self.tileset.get(frame.id);
 
 			for(i=0; i<frame.count; i++)
