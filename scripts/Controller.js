@@ -62,22 +62,29 @@ Controller.prototype = {
 		var canvas = document.querySelector('#my_canvas');
 		var ctx = this.game.ctx;
 
+		var minW = 478,
+			minH = 240;
+
 		return function resizeEvent() {
-			ctx.canvas.height = 240;
-			ctx.canvas.width = 478;
+			var scaleW = window.innerWidth / minW,
+				scaleH = window.innerHeight / minH;
+			var scaleMin = Math.min(scaleW, scaleH);
+
+			var width = (scaleW /scaleMin) *minW,
+				height = (scaleH /scaleMin) *minH;
+
+			canvas.width = width;
+			canvas.height = height;
+
+			width = ~~( (canvas.width -minW) /2);
+			height = ~~( (canvas.height -minH) /2);
 
 			ctx.clearRect(-500, -500, 1000, 1000); 
-			ctx.translate(0, 176);
+			ctx.translate(width, height + 176);
 
-			var scale = Math.min(
-				window.innerWidth / 478,
-				window.innerHeight / 240
-			);
-
-			canvas.style.transform = 'scale('+ scale +', '+ scale +')';
+			canvas.style.transform = 'scale('+ scaleMin +', '+ scaleMin +')';
 			canvas.style.top = 'calc(50vh - '+ (canvas.height / 2) +'px)';
 			canvas.style.left = 'calc(50vw - '+ (canvas.width / 2) +'px)';
-
 		};
 	}
 };

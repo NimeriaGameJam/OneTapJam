@@ -70,13 +70,13 @@ Game.prototype = {
 	},
 
 	render: function(time, self) {
-		requestAnimationFrame(function (time){
+		requestAnimationFrame(function (time) {
 			self.render(time, self);
 			self.update();
 		});
 
 		if(self.currentLevel)
-			self.currentLevel.render(self.ctx, time); 
+			self.currentLevel.render(self.ctx, time);
 	},
 
 	update: function(){
