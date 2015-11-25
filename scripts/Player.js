@@ -17,7 +17,7 @@ Player.prototype = {
 
 			var time = Date.now() - this.controller.stat.pressTime;
 
-			if(time > 80 * 10){
+			if(time > Game.TIME_STEP * 5){
 
 				this.pos+=2;
 				this.controller.stat.press = false;
@@ -36,7 +36,6 @@ Player.prototype = {
 	 * Get the right texture from the tileset.
 	*/
 	getPlayer: function(time) {
-		console.log(time)
 		return this.tileset.get("run0");
 	},
 
