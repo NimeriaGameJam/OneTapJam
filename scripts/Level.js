@@ -24,7 +24,7 @@ Level.prototype = {
 
 	update: function(time) {
 
-
+		this.player.update();
 	},
 
 	render: function(ctx, time) {

@@ -9,7 +9,11 @@ Player.prototype = {
 	 *Logic update.
 	*/
 	update: function(world, time) {
-		
+
+		if(this.controller.stat.press){
+			this.pos++;
+			this.controller.stat.press = false;
+		}
 	},
 
 	/*
@@ -36,8 +40,8 @@ Player.prototype = {
 	transposeY: 16,
 	transpose: function(x) {
 		return {
-			x: x*this.transposeX + 3*this.transposeX,
-			y: -x*this.transposeY + 3*this.transposeY
+			x: x*this.transposeX + 2*this.transposeX,
+			y: -x*this.transposeY + 2*this.transposeY
 		};
 	}
 };
