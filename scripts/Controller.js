@@ -17,6 +17,14 @@ function Controller(game) {
 		pressTime: 0
 	};
 
+	//Used to clear the canvas.
+	this.screen = {
+		top: 0,
+		left: 0,
+		height: 0,
+		width: 0
+	};
+
 	//Add listeners.
 	this.target.addEventListener('mousedown', this.pressEvent);
 	this.target.addEventListener('mouseup', this.relaseEvent);
@@ -38,8 +46,10 @@ Controller.prototype = {
 	 * Define what have to be down (you got it ?).
 	*/
 	definePressEvent: function() {
+		//access
 		var self = this;
 
+		//the function itself 
 		return function PressEvent(event) {
 			self.stat.press = true;
 			self.stat.pressTime = Date.now();
@@ -50,14 +60,21 @@ Controller.prototype = {
 	 * Define what have to be down when the will be relase
 	*/
 	defineReleaseEvent: function() {
+		//access
 		var self = this;
 
+		//the function itself 
 		return function relaseEvent(event) {
 			self.stat.release = true;
 		};
 	},
 
+
+	/*
+	 * Defines the whole metrics to clear and resize the canvas.
+	*/
 	defineResizeEvent: function() {
+		//access
 		var self = this;
 		var canvas = document.querySelector('#my_canvas');
 		var ctx = this.game.ctx;
@@ -65,26 +82,40 @@ Controller.prototype = {
 		var minW = 478,
 			minH = 240;
 
+		//the function itself 
 		return function resizeEvent() {
-			var scaleW = window.innerWidth / minW,
-				scaleH = window.innerHeight / minH;
+			//Window scale data.
+			var scaleW = window.innerWidth /minW,
+				scaleH = window.innerHeight /minH;
 			var scaleMin = Math.min(scaleW, scaleH);
 
+			//Calculate height, width & offset.
 			var width = (scaleW /scaleMin) *minW,
 				height = (scaleH /scaleMin) *minH;
 
-			canvas.width = width;
-			canvas.height = height;
+			self.screen.width = canvas.width = width;
+			self.screen.height = canvas.height = height;
 
-			width = ~~( (canvas.width -minW) /2);
-			height = ~~( (canvas.height -minH) /2);
+			var leftOffset = ~~( (canvas.width -minW) /2) +64;
+			var topOffset = ~~( (canvas.height -minH) /2) +176 +32;
 
-			ctx.clearRect(-500, -500, 1000, 1000); 
-			ctx.translate(width, height + 176);
+			self.screen.left = -leftOffset;
+			self.screen.top = -topOffset;
 
+			ctx.translate(leftOffset, topOffset);
+			self.clearScreen();
+
+			//Update the css scale and position.
 			canvas.style.transform = 'scale('+ scaleMin +', '+ scaleMin +')';
-			canvas.style.top = 'calc(50vh - '+ (canvas.height / 2) +'px)';
-			canvas.style.left = 'calc(50vw - '+ (canvas.width / 2) +'px)';
+			canvas.style.top = 'calc(50vh - '+ (canvas.height /2) +'px)';
+			canvas.style.left = 'calc(50vw - '+ (canvas.width /2) +'px)';
 		};
+	},
+
+	/*
+	 * Clear the canvas.
+	*/
+	clearScreen: function() {
+		this.game.ctx.clearRect(this.screen.left, this.screen.top, this.screen.width, this.screen.height);
 	}
 };

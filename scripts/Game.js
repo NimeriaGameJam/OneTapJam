@@ -72,8 +72,9 @@ Game.prototype = {
 	render: function(time, self) {
 		requestAnimationFrame(function (time) {
 			self.render(time, self);
-			self.update();
 		});
+
+		self.update();
 
 		if(self.currentLevel)
 			self.currentLevel.render(self.ctx, time);

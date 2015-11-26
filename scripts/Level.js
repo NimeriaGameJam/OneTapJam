@@ -23,14 +23,21 @@ Level.prototype = {
 	},
 
 	update: function(time) {
-
+		this.player.update();
 
 	},
 
 	render: function(ctx, time) {
+		this.player.controller.clearScreen();
+		var pos = this.player.transpose(this.player.pos -1);
+		ctx.translate(-pos.x, -pos.y);
+
+
 		for(var i=this.map.length-1; i>=0; i--)
 			this.map[i].render(ctx, time);
 
 		this.player.render(ctx, time);
+
+		ctx.translate(pos.x, pos.y);
 	}
 };

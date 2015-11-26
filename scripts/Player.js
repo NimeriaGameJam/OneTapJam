@@ -56,8 +56,8 @@ Player.prototype = {
 	transposeY: 16,
 	transpose: function(x) {
 		return {
-			x: x*this.transposeX + 2*this.transposeX,
-			y: -x*this.transposeY + 2*this.transposeY
+			x: x*this.transposeX,
+			y: -x*this.transposeY
 		};
 	}
 };
