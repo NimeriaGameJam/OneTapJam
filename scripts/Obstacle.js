@@ -30,7 +30,7 @@ Obstacle.prototype = {
 		var index = this.index;
 
 		this.tileList.forEach(function (tile, y) {
-			tile.tile.render(ctx, time + tile.delay * Game.TIME_STEP, index, y-2);
+			tile.tile.render(ctx, time + tile.delay * Game.TIME_STEP, index, y-3);
 		});
 	}
 };

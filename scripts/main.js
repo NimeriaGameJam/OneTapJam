@@ -26,7 +26,11 @@ var conf = {
 				"ground0": [0, 0, 62, 37, 32, 16],
 				"ground1": [0, 0, 62, 32, 32, 16],
 				"ground2": [0, 0, 62, 32, 32, 16],
-				"water": [0, 38, 62, 39, 32, 16],
+				"wall": [0, 38, 62, 76, 32, 54],
+				"water0": [0, 114, 62, 39, 32, 16],
+				"water1": [0, 152, 62, 39, 32, 16],
+				"water2": [0, 190, 62, 39, 32, 16],
+				"water3": [0, 228, 62, 39, 32, 16],
 				"pike0": [62, 0, 62, 38, 32, 16],
 				"pike1": [62, 38, 62, 38, 32, 16],
 				"pike2": [62, 76, 62, 38, 32, 16],
@@ -55,8 +59,14 @@ var conf = {
 		"ground": [
 			{"id": "ground0", "count": 1}
 		],
+		"wall": [
+			{"id": "wall", "count": 1}
+		],
 		"water": [
-			{"id": "water", "count": 1}
+			{"id": "water0", "count": 2},
+			{"id": "water1", "count": 2},
+			{"id": "water2", "count": 2},
+			{"id": "water3", "count": 2}
 		],
 		"pike": [
 			{"id": "pike0", "count": 10},
@@ -73,11 +83,13 @@ var conf = {
 	"obstacle": {
 		"ground": {
 			"tileList": [
+				{"id": "wall", "delay": 0},
 				{"id": "ground", "delay": 0},
 				{"id": "ground", "delay": 0},
 				{"id": "ground", "delay": 0},
 				{"id": "ground", "delay": 0},
-				{"id": "ground", "delay": 0}
+				{"id": "ground", "delay": 0},
+				{"id": "wall", "delay": 0}
 			],
 			"timeCycle": [
 				{"safe": true, "count": 1}
@@ -85,11 +97,13 @@ var conf = {
 		},
 		"water": {
 			"tileList": [
+				{"id": "wall", "delay": 0},
 				{"id": "water", "delay": 0},
 				{"id": "water", "delay": 0},
 				{"id": "water", "delay": 0},
 				{"id": "water", "delay": 0},
-				{"id": "water", "delay": 0}
+				{"id": "water", "delay": 0},
+				{"id": "wall", "delay": 0}
 			],
 			"timeCycle": [
 				{"safe": true, "count": 1}
@@ -97,11 +111,13 @@ var conf = {
 		},
 		"pike_slow": {
 			"tileList": [
+				{"id": "wall", "delay": 0},
 				{"id": "water", "delay": 0},
 				{"id": "pike", "delay": 0},
 				{"id": "pike", "delay": 2},
 				{"id": "pike", "delay": 4},
-				{"id": "water", "delay": 0}
+				{"id": "water", "delay": 0},
+				{"id": "wall", "delay": 0}
 			],
 			"timeCycle": [
 				{"safe": true, "count": 1},
