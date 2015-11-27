@@ -4,7 +4,7 @@
 function Tileset(tileMap, path, callback) {
 	this.texture = document.createElement('img');
 	this.texture.src = path;
-	this.texture.onload = callback;
+	this.texture.onload = this.buildOnLoadEvent(callback, path);
 
 	this.tileMap = this.buildTileMap(tileMap);
 }
@@ -13,6 +13,19 @@ function Tileset(tileMap, path, callback) {
  * Function that returns the right texture depending on the id of tile.
 */
 Tileset.prototype = {
+	buildOnLoadEvent: function(callback, path) {
+		var self = this;
+
+		return function() {
+			//* Useful to get a live version in game when you edit the tileset.
+				setTimeout(function () {console.log('tick');
+					self.texture.src = path +'?'+ Date.now();
+				}, 1000);
+			//*/
+			callback();
+		}
+	},
+
 	/*
 	 * Convert array to object to be more "dev friendly".
 	*/
