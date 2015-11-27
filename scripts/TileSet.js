@@ -17,7 +17,7 @@ Tileset.prototype = {
 		var self = this;
 
 		return function() {
-			//* Useful to get a live version in game when you edit the tileset.
+			/* Useful to get a live version in game when you edit the tileset.
 				setTimeout(function () {console.log('tick');
 					self.texture.src = path +'?'+ Date.now();
 				}, 1000);
