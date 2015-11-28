@@ -95,8 +95,8 @@ var conf = {
 				{"id": "wall", "delay": 0}
 			],
 			"timeCycle": [
-				{"safe": true, "count": 1}
-			]
+			],
+			"type": "safe"
 		},
 		"water": {
 			"tileList": [
@@ -109,8 +109,8 @@ var conf = {
 				{"id": "wall", "delay": 0}
 			],
 			"timeCycle": [
-				{"safe": true, "count": 1}
-			]
+			],
+			"type": "hole"
 		},
 		"pike_slow": {
 			"tileList": [
@@ -123,15 +123,20 @@ var conf = {
 				{"id": "wall", "delay": 0}
 			],
 			"timeCycle": [
-				{"safe": true, "count": 1},
-				{"safe": false, "count": 0}
-			]
+				{"safe": true, "count": 12},
+				{"safe": false, "count": 2},
+				{"safe": true, "count": 5}
+			],
+			"type": "cyclic"
 		}
 	},
 
 	"level": {
 		"1": {
 			"map": [
+				{"id": "ground", "delay": 0},
+				{"id": "ground", "delay": 0},
+				{"id": "ground", "delay": 0},
 				{"id": "ground", "delay": 0},
 				{"id": "ground", "delay": 0},
 				{"id": "pike_slow", "delay": 0},

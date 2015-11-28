@@ -109,6 +109,10 @@ Controller.prototype = {
 			canvas.style.transform = 'scale('+ scaleMin +', '+ scaleMin +')';
 			canvas.style.top = 'calc(50vh - '+ (canvas.height /2) +'px)';
 			canvas.style.left = 'calc(50vw - '+ (canvas.width /2) +'px)';
+
+			//set debug stat
+			ctx.strokeStyle = 'red';
+			ctx.lineWidth = 1.5;
 		};
 	},
 

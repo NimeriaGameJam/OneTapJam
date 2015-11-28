@@ -1,7 +1,7 @@
 /*
  *
 */
-function Obstacle(tileList, timeCycle, timeOffset, index) {
+function Obstacle(tileList, timeCycle, type, timeOffset, index) {
 	//List of 5 tiles and offset time for each tile.
 	this.tileList = tileList;
 
@@ -10,28 +10,49 @@ function Obstacle(tileList, timeCycle, timeOffset, index) {
 	//offset from the preset paterne.
 	this.timeOffset = timeOffset;
 
-	this.index = index;
+	this.type = type;
 
+	this.index = index;
 }
 
 Obstacle.prototype = {
 	/*
 	 * Return true if the obstacle is currently mortal and can kill the player.
 	*/
-	isMortal: function(time) {
+	isMortal: function(player, time) {
+		return this[this.type](player, time);
+	},
+
+//type functions
+	safe: function() {
 		return false;
 	},
 
+	hole: function(player, time) {
+		return player.action !== Player.ACTION.JUMP;
+	},
+
+	cyclic: function(player, time) {
+		return !this.timeCycle[ ( (~~(time /Game.TIME_STEP)) +this.timeOffset) %this.timeCycle.length ];
+	},
+
+//type functions END
+
 	/*
-	 * 
+	 * render.
 	*/
 	render: function(ctx, time) {
-		time += this.timeOffset * Game.TIME_STEP;
+		var innerTime = time +this.timeOffset *Game.TIME_STEP;
 		var index = this.index;
 
 		this.tileList.forEach(function (tile, y) {
-			tile.tile.render(ctx, time + tile.delay * Game.TIME_STEP, index, y-3);
+			tile.tile.render(ctx, innerTime +tile.delay *Game.TIME_STEP, index, y -3);
 		});
+
+		if(this.isMortal(debug.game && debug.game.currentLevel.player || {}, time)){
+			var pos = Player.transpose(this.index);
+			ctx.strokeRect(pos.x -10, pos.y -10, 20, 20);
+		}
 	}
 };
 
@@ -41,7 +62,8 @@ Obstacle.ConvertData = function(dataMap, tileMap){
 		var data = dataMap[key];
 		var result = {
 			tileList: [],
-			timeCycle: []
+			timeCycle: [],
+			type: data.type
 		};
 
 		data.tileList.forEach(function (tile) {
@@ -55,7 +77,6 @@ Obstacle.ConvertData = function(dataMap, tileMap){
 			for(var i=0; i< time.count; i++)
 				result.timeCycle.push(time.safe);
 		});
-
 
 		dataMap[key] = result;
 	}

@@ -26,7 +26,6 @@ Game.prototype = {
 	init: function(callback) {
 	//CTX
 		this.ctx.imageSmoothingEnabled = false;
-		//this.ctx.scale(1, 1);
 		this.controller.resizeEvent();
 
 	//TILESET
@@ -74,15 +73,15 @@ Game.prototype = {
 			self.render(time, self);
 		});
 
-		self.update();
+		self.update(time);
 
 		if(self.currentLevel)
 			self.currentLevel.render(self.ctx, time);
 	},
 
-	update: function(){
+	update: function(time){
 
-		this.currentLevel.update();
+		this.currentLevel.update(time);
 	},
 
 	/*

@@ -16,20 +16,20 @@ Level.prototype = {
 
 		data.map.forEach(function (obstacle) {
 			var data = obstacleMap[obstacle.id];
-			result.push(new Obstacle(data.tileList, data.timeCycle, obstacle.delay, index++) );
+			result.push(new Obstacle(data.tileList, data.timeCycle, data.type, obstacle.delay, index++) );
 		});
 
 		return result;
 	},
 
 	update: function(time) {
-		this.player.update();
+		this.player.update(this, time);
 
 	},
 
 	render: function(ctx, time) {
 		this.player.controller.clearScreen();
-		var pos = this.player.transpose(this.player.pos -1);
+		var pos = Player.transpose(this.player.pos -1);
 		ctx.translate(-pos.x, -pos.y);
 
 
