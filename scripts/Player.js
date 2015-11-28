@@ -1,8 +1,8 @@
 function Player(tileset, controller) {
 	this.pos = 0;
 
-	//used for render the jump.
-	this.posJump = 0;
+	//used for render the jump & hit action.
+	this.posSave = 0;
 	this.offHeight = 0;
 
 	this.action = Player.ACTION.STAY;
@@ -15,7 +15,7 @@ function Player(tileset, controller) {
 	//updated when the action of the player change. (use setAction) 
 
 
-	this.lastStatChange = 0;
+	this.lastActionChange = 0;
 	
 	this.animationState = 0;
 	this.animationCurrentVisualOffset = 0;
@@ -38,12 +38,11 @@ Player.prototype = {
 
 				break;
 			case Player.ACTION.WALK:
-					var progress = Math.min( (time -this.lastStatChange) /(Game.TIME_STEP *2), 1);
+					var progress = Math.min( (time -this.lastActionChange) /(Game.TIME_STEP *2), 1);
 
 					this.pos = (~~this.pos) +progress;
 
 					if(progress === 1){
-						this.controller.stat.press = false;
 						this.controller.stat.release = false;
 
 						this.setAction(Player.ACTION.STAY, time);
@@ -51,13 +50,12 @@ Player.prototype = {
 
 				break;
 			case Player.ACTION.JUMP:
-					var progress = Math.min( (time -this.lastStatChange) /(Game.TIME_STEP *3), 1);
+					var progress = Math.min( (time -this.lastActionChange) /(Game.TIME_STEP *3), 1);
 
-					this.pos = (this.posJump) + progress*2;
+					this.pos = (this.posSave) + progress*2;
 					this.offHeight = ~~(Math.sin(progress* Math.PI) * 16);
 
 					if(progress === 1){
-						this.controller.stat.press = false;
 						this.controller.stat.release = false;
 
 						this.setAction(Player.ACTION.STAY, time);
@@ -68,14 +66,24 @@ Player.prototype = {
 					if(this.controller.stat.release){
 						this.controller.stat.release = false;
 
-						if((Date.now()-this.controller.stat.pressTime) >= Game.TIME_STEP *5){
-							this.posJump = this.pos;
+						if((Date.now()-this.controller.stat.pressTime) >= Game.TIME_STEP *7){
+							this.posSave = this.pos;
 							this.setAction(Player.ACTION.JUMP, time);
 
 						}else
 							this.setAction(Player.ACTION.WALK, time);
 					}
 
+				break;
+			case Player.ACTION.HIT:
+					var progress = Math.min( (time -this.lastActionChange) /(Game.TIME_STEP *2), 1);
+					this.pos = (this.posSave) - progress*2;
+
+					if(progress === 1){
+						this.controller.stat.release = false;
+
+						this.setAction(Player.ACTION.STAY, time);
+					}
 				break;
 		}
 
@@ -88,8 +96,10 @@ Player.prototype = {
 			mortal = level.map[ Math.round(this.pos) ].isMortal(this, time);
 
 		if(mortal){
-			this.setAction(Player.ACTION.STAY);
-			this.pos = ~~(this.pos -2);
+			this.posSave = Math.round(this.pos);
+			this.offHeight = 0;
+			this.setAction(Player.ACTION.HIT, time);
+			//this.pos = Math.round(this.pos);
 		}
 
 
@@ -155,7 +165,7 @@ Player.prototype = {
 	 * Update the current stat of the player.
 	*/
 	setAction: function(action, time){
-		this.lastStatChange = time;
+		this.lastActionChange = time;
 		this.action = action;
 	},
 
@@ -164,7 +174,7 @@ Player.prototype = {
 	 * Get the right texture from the tileset.
 	*/
 	getPlayerSprite: function(time) {
-		var step = ~~((time -this.lastStatChange) /Game.TIME_STEP) %this.animationFrames[this.action].length;
+		var step = ~~((time -this.lastActionChange) /Game.TIME_STEP) %this.animationFrames[this.action].length;
 		return this.animationFrames[this.action][step];
 	},
 
@@ -188,7 +198,8 @@ Player.prototype = {
 			['run2', 'run2', 'run2', 'run2', 'run5', 'run5', 'run5', 'run5'],
 			['run0', 'run1', 'run2', 'run0', 'run3', 'run4', 'run5'],
 			['jump1'],
-			['jump0']
+			['charge', 'charge', 'charge1', 'charge1', 'charge2', 'charge2', 'charge3', 'charge3', 'charge2', 'charge3', 'charge2', 'charge3', 'charge2', 'charge3', 'charge2', 'charge1'],
+			['jump1']
 		];
 
 		var result = [];
@@ -212,7 +223,8 @@ Player.ACTION = {
 	STAY: 0,
 	WALK: 1,
 	JUMP: 2,
-	CHARGE: 3
+	CHARGE: 3,
+	HIT: 4,
 };
 
 /*

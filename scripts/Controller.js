@@ -27,7 +27,9 @@ function Controller(game) {
 
 	//Add listeners.
 	this.target.addEventListener('mousedown', this.pressEvent);
+	this.target.addEventListener('touchstart', this.pressEvent);
 	this.target.addEventListener('mouseup', this.relaseEvent);
+	this.target.addEventListener('touchend', this.relaseEvent);
 	this.target.addEventListener('resize', this.resizeEvent);
 }
 
@@ -38,7 +40,9 @@ Controller.prototype = {
 	*/
 	destroy: function() {
 		this.target.removeEventListener('mousedown', this.pressEvent);
+		this.target.addEventListener('touchstart', this.pressEvent);
 		this.target.removeEventListener('mouseup', this.relaseEvent);
+		this.target.addEventListener('touchend', this.relaseEvent);
 		this.target.removeEventListener('resize', this.resizeEvent);
 	},
 

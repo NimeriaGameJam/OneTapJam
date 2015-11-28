@@ -29,7 +29,7 @@ Obstacle.prototype = {
 	},
 
 	hole: function(player, time) {
-		return player.action !== Player.ACTION.JUMP;
+		return player.action !== Player.ACTION.JUMP && player.action !== Player.ACTION.HIT;
 	},
 
 	cyclic: function(player, time) {
