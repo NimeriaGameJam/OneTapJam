@@ -42,7 +42,8 @@ var conf = {
 				"jumpH2": [124, 76, 62, 38, 32, 16],
 				"jumpH3": [124, 114, 62, 38, 32, 16],
 				"jumpH4": [124, 152, 62, 38, 32, 16],
-				"jumpH5": [124, 190, 62, 38, 32, 16]
+				"jumpH5": [124, 190, 62, 38, 32, 16],
+				"smooth": [186, 0, 62, 32, 32, 16]
 			},
 			"path": "assets/img/tiles.png"
 		},
@@ -73,6 +74,9 @@ var conf = {
 		"wall": [
 			{"id": "wall", "count": 1}
 		],
+		"smooth": [
+			{"id": "smooth", "count": 1}
+		],
 		"water": [
 			{"id": "water0", "count": 2},
 			{"id": "water1", "count": 2},
@@ -87,6 +91,7 @@ var conf = {
 			{"id": "pike4", "count": 1},
 			{"id": "pike5", "count": 1},
 			{"id": "pike6", "count": 1},
+			{"id": "pike1", "count": 1},
 			{"id": "pike1", "count": 1}
 		],
 		"pike2": [
@@ -123,7 +128,7 @@ var conf = {
 			{"id": "jumpH0", "count": 4},
 			{"id": "jumpH2", "count": 1},
 			{"id": "jumpH4", "count": 1},
-			{"id": "jumpH2", "count": 1},
+			{"id": "jumpH2", "count": 1}
 		]
 	},
 
@@ -215,7 +220,7 @@ var conf = {
 			"timeCycle": [
 				{"safe": true, "count": 12},
 				{"safe": false, "count": 2},
-				{"safe": true, "count": 5}
+				{"safe": true, "count": 6}
 			],
 			"type": "cyclic"
 		},
@@ -251,12 +256,28 @@ var conf = {
 				{"safe": false, "count": 1}
 			],
 			"type": "cyclic"
+		},
+
+		"end": {
+			"tileList": [
+				{"id": "wall", "delay": 0},
+				{"id": "smooth", "delay": 0},
+				{"id": "smooth", "delay": 0},
+				{"id": "smooth", "delay": 0},
+				{"id": "smooth", "delay": 0},
+				{"id": "smooth", "delay": 0},
+				{"id": "wall", "delay": 0}
+			],
+			"timeCycle": [
+				{"safe": false, "count": 1}
+			],
+			"type": "end"
 		}
 	},
 
 	"level": {
 		"1": {
-			"map": [ 
+			"map": [
 				"ground", 0,
 				"ground", 0,
 				"ground", 0,
@@ -264,7 +285,7 @@ var conf = {
 				"ground", 0,
 				"ground", 0,
 				"ground", 0,
-				"ground", 0,
+
 				"ground", 0,
 				"ground", 0,
 				"moveHelp", 0,
@@ -272,17 +293,77 @@ var conf = {
 				"ground", 0,
 				"pike2", 32,
 				"ground", 0,
+				"ground", 0,
+				"pike", 0,
+				"pike", 15,
+				"ground", 0,
+
+				"ground", 0,
 				"smallGround", 0,
 				"jumpHelp", 0,
-				"smallGround", 10,
+				"smallGround", 0,
 				"ground", 0,
 				"water", 0,
 				"ground", 0,
 				"ground", 0,
+
+				"smallGround", 0, 
+				"smallGround", 0, 
+				"water", 0,
+				"pike2", 0,
 				"ground", 0,
 				"water", 0,
+				"smallGround", 0, 
+				"smallGround", 0, 
+
 				"ground", 0,
+				"pike", 0,
+				"pike2", 0,
+				"pike", 0,
+				"ground", 0, 
+				"water", 0,
 				"ground", 0,
+
+				"smallGround", 0, 
+				"smallGround", 0, 
+				"pike", 0,
+				"water", 0,
+				"smallGround", 0, 
+				"ground", 0, 
+				"pike2", 14,
+				"pike2", 7,
+				"pike2", 0,
+				"pike", 0,
+				"smallGround", 0, 
+
+
+				"water", 0,
+				"smallGround", 0, 
+				"ground", 0,
+				"pike2", 0,
+				"water", 0,
+				"pike2", 15,
+
+				"smallGround", 0, 
+				"smallGround", 0, 
+				"water", 0,
+				"pike2", 0,
+				"water", 0,
+				"smallGround", 0, 
+				"smallGround", 0, 
+
+
+				"ground", 0, 
+				"smallGround", 0, 
+				"pike", 0,
+				"pike2", 10,
+				"water", 0,
+				"smallGround", 0, 
+				"ground", 0, 
+
+
+
+
 				"ground", 0,
 				"ground", 0,
 				"pike", 32,
@@ -295,6 +376,12 @@ var conf = {
 				"pike2", 16,
 				"pike2", 8,
 				"pike2", 0,
+
+				"ground", 0,
+				"ground", 0,
+				"end", 0,
+				"ground", 0,
+				"ground", 0,
 				"wall", 0
 			]
 		}
@@ -319,3 +406,4 @@ var debug = {};
 		debug.game = game;
 	});
 })(conf, debug);
+

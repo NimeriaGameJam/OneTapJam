@@ -1,7 +1,7 @@
 function Player(tileset, controller) {
 	this.pos = 6;
 
-	this.score = 100000;
+	this.score = 10000;
 	this.lastScoreDown = 0;
 	this.scoreNode = document.querySelector('div.score');
 	this.scoreNode.innerText = ~~this.score;
@@ -122,7 +122,7 @@ Player.prototype = {
 		this.action = action;
 
 		if(this.action === Player.ACTION.HIT)
-			this.score -= 5;
+			this.score -= 25;
 	},
 
 

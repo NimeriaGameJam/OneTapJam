@@ -80,7 +80,6 @@ Game.prototype = {
 	},
 
 	update: function(time){
-
 		this.currentLevel.update(time);
 	},
 
@@ -90,6 +89,38 @@ Game.prototype = {
 	loadLevel: function(name) {
 		var player = new Player(this.tilesetsMap['player'], this.controller);
 		this.currentLevel = new Level(this.levelMap[name], player, this.obstacleMap);
+	},
+
+
+	/*
+	 * end of game.
+	*/
+	end: function(player){
+		var self = this;
+		var score = player.score;
+		var best = localStorage && localStorage.getItem('best') || 0;
+
+		if(score > best)
+			localStorage && localStorage.setItem('best', score);
+
+
+		var target = document.querySelector('div.end');
+
+		target.innerHTML = [
+			'<span>'+ score +'</span>',
+			'<span> best: '+ best +'</span>'
+		].join('<br/>');
+
+		target.classList.add('display');
+		
+		setTimeout(function () {
+			self.loadLevel('1');
+			document.body.onclick = function(){
+				target.classList.remove('display');
+
+				document.body.onclick = null;
+			};
+		}, 500);
 	}
 };
 

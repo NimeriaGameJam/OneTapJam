@@ -57,13 +57,18 @@ Controller.prototype = {
 		div.addEventListener('mousedown', press);
 		div.addEventListener('touchstart', press);
 
-		audio.volume = .25;
+		audio.volume = localStorage && localStorage.getItem('volume') || .25;
 
 		function press(event){
 			if(audio.volume === .25)
 				audio.volume = 0.0;
 			else
 				audio.volume = 0.25;
+
+			if(localStorage){
+				localStorage.setItem('volume', audio.volume);
+			}
+
 
 			event.stopImmediatePropagation();
 		}

@@ -36,6 +36,12 @@ Obstacle.prototype = {
 		return !this.timeCycle[ ( (~~(time /Game.TIME_STEP)) +this.timeOffset) %this.timeCycle.length ];
 	},
 
+	end: function(player, time) {
+		if(player.pos >= this.index)
+			debug.game.end(player);
+		return false;
+	},
+
 //type functions END
 
 	/*
@@ -49,10 +55,10 @@ Obstacle.prototype = {
 			tile.tile.render(ctx, innerTime +tile.delay *Game.TIME_STEP, index, y -3);
 		});
 
-		if(this.isMortal(debug.game && debug.game.currentLevel.player || {}, time)){
+		/*if(this.isMortal(debug.game && debug.game.currentLevel.player || {}, time)){
 			var pos = Player.transpose(this.index);
 			ctx.strokeRect(pos.x -10, pos.y -10, 20, 20);
-		}
+		}*/
 	}
 };
 
