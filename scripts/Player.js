@@ -1,5 +1,10 @@
 function Player(tileset, controller) {
-	this.pos = 0;
+	this.pos = 6;
+
+	this.score = 100000;
+	this.lastScoreDown = 0;
+	this.scoreNode = document.querySelector('div.score');
+	this.scoreNode.innerText = ~~this.score;
 
 	//used for render the jump & hit action.
 	this.posSave = 0;
@@ -27,7 +32,6 @@ Player.prototype = {
 	 *Logic update.
 	*/
 	update: function(level, time) {
-
 		switch(this.action) {
 			case Player.ACTION.STAY:
 					if(this.controller.stat.press){
@@ -81,6 +85,7 @@ Player.prototype = {
 
 					if(progress === 1){
 						this.controller.stat.release = false;
+						this.controller.stat.press = false;
 
 						this.setAction(Player.ACTION.STAY, time);
 					}
@@ -95,70 +100,18 @@ Player.prototype = {
 		if(partialMove < .4 || partialMove > .6)
 			mortal = level.map[ Math.round(this.pos) ].isMortal(this, time);
 
-		if(mortal){
+		if(mortal && this.action !== Player.ACTION.HIT){
 			this.posSave = Math.round(this.pos);
 			this.offHeight = 0;
 			this.setAction(Player.ACTION.HIT, time);
 			//this.pos = Math.round(this.pos);
 		}
 
-
-		/*
-		if (this.animationState != 0) // animation in progress
-		{
-			if (this.animationState == this.animationMaxState) // last animation frame
-			{
-				if(this.action === Player.ACTION.WALK)
-					this.pos = Math.round(this.pos + 1 / this.animationMaxState);
-				else
-					this.pos = Math.round(this.pos + 2 / this.animationMaxState);
-
-				this.action = Player.ACTION.STAY;
-				this.animationState = 0;
-			}
-			else // any frame but the last one
-			{
-				this.animationState++;
-
-				if(this.action === Player.ACTION.WALK)
-					this.pos += 1 /this.animationMaxState;
-
-				else if(this.action === Player.ACTION.JUMP)
-					this.pos += 2 /this.animationMaxState;
-
-				return;
-			}
+		if(this.lastScoreDown < time-250){
+			this.lastScoreDown = time;
+			this.score -= 1;
 		}
-		//*/
-		/*
-		if(this.controller.stat.press && this.controller.stat.release && this.animationState == 0){
 
-			this.action = Player.ACTION.CHARGE;
-
-			var pressTime = Date.now() - this.controller.stat.pressTime;
-
-			if(pressTime > Game.TIME_STEP * 5)
-			{
-				this.action = Player.ACTION.JUMP;
-
-				this.animationState = 1;
-				this.pos += 2 / this.animationMaxState;
-				
-				this.controller.stat.press = false;
-				this.controller.stat.release = false;
-			}
-			else
-			{
-				this.action = Player.ACTION.WALK;
-
-				this.animationState = 1;
-				this.pos += 1 / this.animationMaxState;
-				
-				this.controller.stat.press = false;
-				this.controller.stat.release = false;
-			}
-		}
-		//*/
 	},
 
 	/*
@@ -167,6 +120,9 @@ Player.prototype = {
 	setAction: function(action, time){
 		this.lastActionChange = time;
 		this.action = action;
+
+		if(this.action === Player.ACTION.HIT)
+			this.score -= 5;
 	},
 
 
@@ -187,6 +143,8 @@ Player.prototype = {
 		var sprite = this.getPlayerSprite(time);
 
 		ctx.drawImage(this.tileset.texture, sprite.x, sprite.y, sprite.w, sprite.h, currentPos.x -sprite.offX, currentPos.y -sprite.offY -this.offHeight, sprite.w, sprite.h);
+
+		this.scoreNode.innerText = ~~this.score;
 	},
 
 	/*
@@ -224,7 +182,7 @@ Player.ACTION = {
 	WALK: 1,
 	JUMP: 2,
 	CHARGE: 3,
-	HIT: 4,
+	HIT: 4
 };
 
 /*

@@ -5,8 +5,7 @@
 
 
 // ├ ─ └
-
-/*(yep they was json formated)
+/*
  *├─conf
  *  ├─tileset
  *  │ ├─tile:
@@ -37,7 +36,13 @@ var conf = {
 				"pike3": [62, 114, 62, 38, 32, 16],
 				"pike4": [62, 152, 62, 38, 32, 16],
 				"pike5": [62, 190, 62, 38, 32, 16],
-				"pike6": [62, 228, 62, 38, 32, 16]
+				"pike6": [62, 228, 62, 38, 32, 16],
+				"jumpH0": [124, 0, 62, 38, 32, 16],
+				"jumpH1": [124, 38, 62, 38, 32, 16],
+				"jumpH2": [124, 76, 62, 38, 32, 16],
+				"jumpH3": [124, 114, 62, 38, 32, 16],
+				"jumpH4": [124, 152, 62, 38, 32, 16],
+				"jumpH5": [124, 190, 62, 38, 32, 16]
 			},
 			"path": "assets/img/tiles.png"
 		},
@@ -83,6 +88,42 @@ var conf = {
 			{"id": "pike5", "count": 1},
 			{"id": "pike6", "count": 1},
 			{"id": "pike1", "count": 1}
+		],
+		"pike2": [
+			{"id": "pike0", "count": 10},
+			{"id": "pike1", "count": 3},
+			{"id": "pike2", "count": 1},
+			{"id": "pike3", "count": 1},
+			{"id": "pike4", "count": 1},
+			{"id": "pike5", "count": 1},
+			{"id": "pike3", "count": 1},
+			{"id": "pike4", "count": 1},
+			{"id": "pike5", "count": 1},
+			{"id": "pike3", "count": 1},
+			{"id": "pike4", "count": 1},
+			{"id": "pike5", "count": 1},
+			{"id": "pike6", "count": 1},
+			{"id": "pike1", "count": 1}
+		],
+		"jumpHelp": [
+			{"id": "jumpH0", "count": 4},
+			{"id": "jumpH1", "count": 1},
+			{"id": "jumpH2", "count": 1},
+			{"id": "jumpH3", "count": 1},
+			{"id": "jumpH4", "count": 1},
+			{"id": "jumpH5", "count": 1},
+			{"id": "jumpH4", "count": 1},
+			{"id": "jumpH5", "count": 1},
+			{"id": "jumpH4", "count": 1},
+			{"id": "jumpH5", "count": 1},
+			{"id": "jumpH4", "count": 1},
+			{"id": "jumpH5", "count": 1}
+		], 
+		"moveHelp": [
+			{"id": "jumpH0", "count": 4},
+			{"id": "jumpH2", "count": 1},
+			{"id": "jumpH4", "count": 1},
+			{"id": "jumpH2", "count": 1},
 		]
 	},
 
@@ -95,6 +136,20 @@ var conf = {
 				{"id": "ground", "delay": 0},
 				{"id": "ground", "delay": 0},
 				{"id": "ground", "delay": 0},
+				{"id": "wall", "delay": 0}
+			],
+			"timeCycle": [
+			],
+			"type": "safe"
+		},
+		"smallGround": {
+			"tileList": [
+				{"id": "wall", "delay": 0},
+				{"id": "water", "delay": 0},
+				{"id": "ground", "delay": 0},
+				{"id": "ground", "delay": 0},
+				{"id": "ground", "delay": 0},
+				{"id": "water", "delay": 0},
 				{"id": "wall", "delay": 0}
 			],
 			"timeCycle": [
@@ -115,7 +170,39 @@ var conf = {
 			],
 			"type": "hole"
 		},
-		"pike_slow": {
+		"jumpHelp": {
+			"tileList": [
+				{"id": "wall", "delay": 0},
+				{"id": "jumpHelp", "delay": 0},
+				{"id": "water", "delay": 0},
+				{"id": "water", "delay": 0},
+				{"id": "water", "delay": 0},
+				{"id": "water", "delay": 0},
+				{"id": "wall", "delay": 0}
+			],
+			"timeCycle": [
+			],
+			"type": "hole"
+		},
+		"moveHelp": {
+			"tileList": [
+				{"id": "wall", "delay": 0},
+				{"id": "moveHelp", "delay": 0},
+				{"id": "pike2", "delay": 3},
+				{"id": "pike2", "delay": 6},
+				{"id": "pike2", "delay": 9},
+				{"id": "pike2", "delay": 12},
+				{"id": "wall", "delay": 0}
+			],
+			"timeCycle": [
+				{"safe": true, "count": 8},
+				{"safe": false, "count": 9},
+				{"safe": true, "count": 8}
+			],
+			"type": "cyclic"
+		},
+
+		"pike": {
 			"tileList": [
 				{"id": "wall", "delay": 0},
 				{"id": "water", "delay": 0},
@@ -131,33 +218,84 @@ var conf = {
 				{"safe": true, "count": 5}
 			],
 			"type": "cyclic"
+		},
+		"pike2": {
+			"tileList": [
+				{"id": "wall", "delay": 0},
+				{"id": "pike2", "delay": 0},
+				{"id": "pike2", "delay": 3},
+				{"id": "pike2", "delay": 6},
+				{"id": "pike2", "delay": 9},
+				{"id": "pike2", "delay": 12},
+				{"id": "wall", "delay": 0}
+			],
+			"timeCycle": [
+				{"safe": true, "count": 8},
+				{"safe": false, "count": 9},
+				{"safe": true, "count": 8}
+			],
+			"type": "cyclic"
+		},
+
+		"wall": {
+			"tileList": [
+				{"id": "wall", "delay": 0},
+				{"id": "wall", "delay": 0},
+				{"id": "wall", "delay": 0},
+				{"id": "wall", "delay": 0},
+				{"id": "wall", "delay": 0},
+				{"id": "wall", "delay": 0},
+				{"id": "wall", "delay": 0}
+			],
+			"timeCycle": [
+				{"safe": false, "count": 1}
+			],
+			"type": "cyclic"
 		}
 	},
 
 	"level": {
 		"1": {
-			"map": [
-				{"id": "ground", "delay": 0},
-				{"id": "ground", "delay": 0},
-				{"id": "ground", "delay": 0},
-				{"id": "ground", "delay": 0},
-				{"id": "ground", "delay": 0},
-				{"id": "pike_slow", "delay": 0},
-				{"id": "water", "delay": 0},
-				{"id": "pike_slow", "delay": 10},
-				{"id": "ground", "delay": 0},
-				{"id": "water", "delay": 0},
-				{"id": "ground", "delay": 0},
-				{"id": "ground", "delay": 0},
-				{"id": "ground", "delay": 0},
-				{"id": "water", "delay": 0},
-				{"id": "ground", "delay": 0},
-				{"id": "ground", "delay": 0},
-				{"id": "ground", "delay": 0},
-				{"id": "ground", "delay": 0},
-				{"id": "ground", "delay": 0},
-				{"id": "ground", "delay": 0},
-				{"id": "ground", "delay": 0}
+			"map": [ 
+				"ground", 0,
+				"ground", 0,
+				"ground", 0,
+				"ground", 0,
+				"ground", 0,
+				"ground", 0,
+				"ground", 0,
+				"ground", 0,
+				"ground", 0,
+				"ground", 0,
+				"moveHelp", 0,
+				"ground", 0,
+				"ground", 0,
+				"pike2", 32,
+				"ground", 0,
+				"smallGround", 0,
+				"jumpHelp", 0,
+				"smallGround", 10,
+				"ground", 0,
+				"water", 0,
+				"ground", 0,
+				"ground", 0,
+				"ground", 0,
+				"water", 0,
+				"ground", 0,
+				"ground", 0,
+				"ground", 0,
+				"ground", 0,
+				"pike", 32,
+				"pike", 24,
+				"pike", 16,
+				"pike", 8,
+				"pike", 0,
+				"pike2", 32,
+				"pike2", 24,
+				"pike2", 16,
+				"pike2", 8,
+				"pike2", 0,
+				"wall", 0
 			]
 		}
 	},
@@ -180,5 +318,4 @@ var debug = {};
 
 		debug.game = game;
 	});
-
 })(conf, debug);

@@ -31,6 +31,9 @@ function Controller(game) {
 	this.target.addEventListener('mouseup', this.relaseEvent);
 	this.target.addEventListener('touchend', this.relaseEvent);
 	this.target.addEventListener('resize', this.resizeEvent);
+
+	this.bindAudio();
+	this.bindReset();
 }
 
 Controller.prototype = {
@@ -44,6 +47,39 @@ Controller.prototype = {
 		this.target.removeEventListener('mouseup', this.relaseEvent);
 		this.target.addEventListener('touchend', this.relaseEvent);
 		this.target.removeEventListener('resize', this.resizeEvent);
+	},
+
+	bindAudio: function() {
+		var audio = document.querySelector('audio');
+		var self = this;
+		var div = document.querySelector('div.audio');
+
+		div.addEventListener('mousedown', press);
+		div.addEventListener('touchstart', press);
+
+		audio.volume = .25;
+
+		function press(event){
+			if(audio.volume === .25)
+				audio.volume = 0.0;
+			else
+				audio.volume = 0.25;
+
+			event.stopImmediatePropagation();
+		}
+	},
+
+	bindReset: function() {
+		var game = this.game;
+		var div = document.querySelector('div.reset');
+
+		div.addEventListener('mousedown', reset);
+		div.addEventListener('touchstart', reset);
+
+		function reset() {
+			game.loadLevel('1');
+			event.stopImmediatePropagation();
+		}
 	},
 
 	/*
@@ -116,7 +152,7 @@ Controller.prototype = {
 
 			//set debug stat
 			ctx.strokeStyle = 'red';
-			ctx.lineWidth = 1.5;
+			ctx.lineWidth = .5;
 		};
 	},
 

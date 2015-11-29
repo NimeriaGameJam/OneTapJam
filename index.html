@@ -14,6 +14,8 @@
 				background-color: #222;
 				text-align: center;
 				overflow: hidden;
+
+				font-family: sans-serif;
 			}
 			 
 			canvas{
@@ -21,8 +23,64 @@
 
 				position: absolute;
 				top: calc(50vh - 150px);
-				
 			}
+
+			div.audio{
+				position: fixed;
+				line-height: 57px;
+				top: 10px;
+				left: 10px;
+
+				width: 60px;
+				height: 60px;
+
+				font-size: 3.5em;
+				color: white;
+				font-weight: bold;
+				cursor: pointer;
+				border: solid 3px white;
+				border-radius: 50%;
+
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
+
+			div.reset{
+				position: fixed;
+				top: 10px;
+				left: 86px;
+				width: 60px;
+				height: 60px;
+				font-size: 3.5em;
+				line-height: 68px;
+				color: white;
+				font-weight: bold;
+				cursor: pointer;
+				border: solid 3px white;
+				border-radius: 50%;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
+
+			div.score{
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+
+				position: fixed;
+				bottom: 10px;
+				right: 10px;
+
+				font-size: 4em;
+				color: white;
+				text-shadow: 0 0 10px orange, 0 0 8px orange, 0 0 5px orange, 0 0 2px orange;
+			}
+
 		</style>
 	</head>
 
@@ -30,6 +88,14 @@
 		<canvas id="my_canvas" width="500" height="300">
 			Your web browser don't support canvas.
 		</canvas>
+		<div class="audio">♫</div>
+		<div class="reset">↻</div>
+
+		<div class="score"></div>
+
+		<audio loop autoplay volume=".1">
+  			<source src="./assets/music/theme01.wav" type="audio/wav">
+		</audio>
 
 		<!-- Import script -->
 		<script src="scripts/Controller.js"></script>

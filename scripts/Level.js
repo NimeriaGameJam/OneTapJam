@@ -14,10 +14,11 @@ Level.prototype = {
 		var result = [];
 		var index = 0;
 
-		data.map.forEach(function (obstacle) {
-			var data = obstacleMap[obstacle.id];
-			result.push(new Obstacle(data.tileList, data.timeCycle, data.type, obstacle.delay, index++) );
-		});
+		for(var i=0; i<data.map.length; i+=2){
+			var obstacle = obstacleMap[ data.map[i] ];
+
+			result.push(new Obstacle(obstacle.tileList, obstacle.timeCycle, obstacle.type, data.map[i+1], index++) );
+		}
 
 		return result;
 	},
@@ -32,9 +33,11 @@ Level.prototype = {
 		var pos = Player.transpose(this.player.pos -1);
 		ctx.translate(-pos.x, -pos.y);
 
+		var index = Math.min(~~this.player.pos+16, this.map.length-1),
+			end = Math.max(~~this.player.pos-6, 0);
 
-		for(var i=this.map.length-1; i>=0; i--)
-			this.map[i].render(ctx, time);
+		for(; index>=end; index--)
+			this.map[index].render(ctx, time);
 
 		this.player.render(ctx, time);
 
